@@ -131,17 +131,16 @@ void generator_thread() {
         }
     }
 }
-int sample = 500;
-float ADCdata[500];
+int sample = 100;
+float ADCdata[100];
 void sample_thread() {
     int i = 0;
     sampling = 1;
     // t.start();
     for (i = 0; i < sample; i++){
         // Aout = Ain;
-        ADCdata[i] = Ain * 3.3;
-        // ThisThread::sleep_for(1ms); // sampling rate = 500/s 實際55/s
-        ThisThread::sleep_for(1000ms/sample); // sampling rate = 500/s 實際55/s
+        ADCdata[i] = Ain;
+        ThisThread::sleep_for(1000ms/sample); // sampling rate = 100/s 實際100/3s
         // wait_us(100);
     }
     sampling = 0;
