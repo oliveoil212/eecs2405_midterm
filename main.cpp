@@ -20,7 +20,7 @@ int cnt = 0;
 long int  period;
 int freq = 1;
 int selected = 0;
-int selection =4;
+int selection =1;
 bool sampling = 0;
 float out;
 void lcd_update(){
@@ -90,7 +90,7 @@ void generator_thread() {
     float i;
     while(1) {
         if (1) {
-            if (selection == 1) {        // slew1
+            if (selection == 2) {        // slew1
                 for (i = 0.0f; i < 1; i+=0.000175635f) {
                     Aout = i;
                 }
@@ -100,7 +100,7 @@ void generator_thread() {
                     Aout = i;
                 }
             }
-            else if (selection == 2) {        // slew1/2
+            else if (selection == 3) {        // slew1/2
                 for (i = 0.0f; i < 1; i+=0.000345635f) {
                     Aout = i;
                 }
@@ -110,7 +110,7 @@ void generator_thread() {
                     Aout = i;
                 }
             }
-            else if (selection == 3) {        // slew 1/4
+            else if (selection == 4) {        // slew 1/4
                 for (i = 0.0f; i < 1; i+=0.000690005f) {
                     Aout = i;
                 }
@@ -119,12 +119,12 @@ void generator_thread() {
                     Aout = i;
                 }
             }    
-            else if (selection == 4) {        // slew 1/8
-                for (i = 0.0f; i < 1; i+=0.001400005f) {
+            else if (selection == 1) {        // slew 1/8
+                for (i = 0.0f; i < 1; i+=0.000087005f) {
                     Aout = i;
                 }
                 ThisThread::sleep_for(220ms);  
-                for (i = 1.0f; i > 0.0f; i -= 0.001400005f) {
+                for (i = 1.0f; i > 0.0f; i -= 0.000087005f) {
                     Aout = i;
                 }
             }    
