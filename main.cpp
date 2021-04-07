@@ -10,6 +10,8 @@ InterruptIn buttom_select(D11);
 uLCD_4DGL uLCD(D1, D0, D2); // serial tx, serial rx, reset pin;
 AnalogOut Aout(PA_4); // D7 pin
 AnalogIn Ain(A0);
+Thread printfThread(osPriorityLow);
+Thread eventThread(osPriorityNormal);
 EventQueue printfQueue;
 EventQueue eventQueue;
 Thread g, s;
@@ -83,9 +85,6 @@ void bt2_irq(){   //down bottom
     if(selection < 1) selection = 1;
     // printfQueue.call(&lcd_update);
 }
-void bt3_irq(){ //selected buttom
-    selected = 1;
-}
 void generator_thread() {
 
     float i;
@@ -153,6 +152,10 @@ void sample_thread() {
     }
     // printf ("Timer time: %llu ms\n", ms);
 }
+void bt3_irq(){ //selected buttom
+    printfQueue.call(&sample_thread);
+    selected = 1;
+}
 int main() {
     uLCD.reset();
     uLCD.background_color(0xDB7093);
@@ -175,10 +178,8 @@ int main() {
     uLCD.printf("1/4");
     uLCD.locate(1,8);
     uLCD.printf("1/8");
-    Thread printfThread(osPriorityLow);
     printfThread.start(callback(&printfQueue, &EventQueue::dispatch_forever));
     // normal priority thread for other events
-  Thread eventThread(osPriorityNormal);
     eventThread.start(callback(&eventQueue, &EventQueue::dispatch_forever));
 
     // debounce.start();
@@ -194,12 +195,12 @@ int main() {
 
         // ThisThread::sleep_for(1000ms); // sampling rate = 500/s 實際55/s
     }
-    uLCD.locate(0,10);
-    uLCD.printf(" start!");
-
-    sample_thread();
-    uLCD.locate(0,10);
-    uLCD.printf(" done!");
+    // uLCD.locate(0,10);
+    // uLCD.printf(" start!");
+    // printfQueue.call(&sample_thread);
+    // sample_thread();
+    // uLCD.locate(0,10);
+    // uLCD.printf(" done!");
 
 }
 
