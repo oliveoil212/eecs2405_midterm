@@ -1,33 +1,3 @@
-Skip to content
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@oliveoil212 
-ww21212
-/
-Exam1
-1
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Exam1/exam1/exam_plot.py /
-
-your name add exam_plot.py
-Latest commit d2fbfd0 1 hour ago
- History
- 0 contributors
-35 lines (30 sloc)  1011 Bytes
-  
 import matplotlib.pyplot as plt
 import numpy as np
 import serial
@@ -63,16 +33,3 @@ ax[1].set_xlabel('Freq (Hz)')
 ax[1].set_ylabel('|Y(freq)|')
 plt.show()
 s.close()
-© 2021 GitHub, Inc.
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-Loading complete
