@@ -18,57 +18,57 @@ int cnt = 0;
 long int  period;
 int freq = 1;
 int selected = 0;
-int selection =2;
+int selection =4;
 bool sampling = 0;
 float out;
 void lcd_update(){
-       switch(selection){
-           case 1: 
-                // uLCD.textbackground_color(WHITE);
-                uLCD.locate(0,2);
-                uLCD.printf("-");
-                uLCD.locate(0,4);
-                uLCD.printf(" ");
-                uLCD.locate(0,6);
-                uLCD.printf(" ");
-                uLCD.locate(0,8);
-                uLCD.printf(" ");
-                break;
-            case 2: 
-                // uLCD.textbackground_color(WHITE);
-                uLCD.locate(0,2);
-                uLCD.printf(" ");
-                uLCD.locate(0,4);
-                uLCD.printf("-");
-                uLCD.locate(0,6);
-                uLCD.printf(" ");
-                uLCD.locate(0,8);
-                uLCD.printf(" ");
-                break;
-            case 3: 
-                // uLCD.textbackground_color(WHITE);
-                uLCD.locate(0,2);
-                uLCD.printf(" ");
-                uLCD.locate(0,4);
-                uLCD.printf(" ");
-                uLCD.locate(0,6);
-                uLCD.printf("-");
-                uLCD.locate(0,8);
-                uLCD.printf(" ");
-                break;
-            case 4: 
-                // uLCD.textbackground_color(WHITE);
-                uLCD.locate(0,2);
-                uLCD.printf(" ");
-                uLCD.locate(0,4);
-                uLCD.printf(" ");
-                uLCD.locate(0,6);
-                uLCD.printf(" ");
-                uLCD.locate(0,8);
-                uLCD.printf("-");
-                break;
-                // uLCD.printf("error");
-       }
+    switch(selection){
+        case 1: 
+            // uLCD.textbackground_color(WHITE);
+            uLCD.locate(0,2);
+            uLCD.printf("-");
+            uLCD.locate(0,4);
+            uLCD.printf(" ");
+            uLCD.locate(0,6);
+            uLCD.printf(" ");
+            uLCD.locate(0,8);
+            uLCD.printf(" ");
+            break;
+        case 2: 
+            // uLCD.textbackground_color(WHITE);
+            uLCD.locate(0,2);
+            uLCD.printf(" ");
+            uLCD.locate(0,4);
+            uLCD.printf("-");
+            uLCD.locate(0,6);
+            uLCD.printf(" ");
+            uLCD.locate(0,8);
+            uLCD.printf(" ");
+            break;
+        case 3: 
+            // uLCD.textbackground_color(WHITE);
+            uLCD.locate(0,2);
+            uLCD.printf(" ");
+            uLCD.locate(0,4);
+            uLCD.printf(" ");
+            uLCD.locate(0,6);
+            uLCD.printf("-");
+            uLCD.locate(0,8);
+            uLCD.printf(" ");
+            break;
+        case 4: 
+            // uLCD.textbackground_color(WHITE);
+            uLCD.locate(0,2);
+            uLCD.printf(" ");
+            uLCD.locate(0,4);
+            uLCD.printf(" ");
+            uLCD.locate(0,6);
+            uLCD.printf(" ");
+            uLCD.locate(0,8);
+            uLCD.printf("-");
+            break;
+            // uLCD.printf("error");
+    }
 }
 void count_func() {
     cnt++;
@@ -91,19 +91,41 @@ void generator_thread() {
     float i;
     while(1) {
         if (1) {
-            if (selection == 1) {        // 200Hz
-                for (i = 0.0f; i < 1; i+=0.0075635f) {
+            if (selection == 1) {        // slew1
+                for (i = 0.0f; i < 1; i+=0.000175635f) {
                     Aout = i;
                 }
-                for (i = 1.0f; i > 0.0f; i -= 0.001896f) {
+
+                ThisThread::sleep_for(80ms);  
+                for (i = 1.0f; i > 0.0f; i -= 0.000175635f) {
                     Aout = i;
                 }
             }
-            else if (selection == 2) {        // 20Hz
-                for (i = 0.0f; i < 1; i+=0.00074635f) {
+            else if (selection == 2) {        // slew1/2
+                for (i = 0.0f; i < 1; i+=0.000345635f) {
                     Aout = i;
                 }
-                for (i = 1.0f; i > 0.0f; i -= 0.0001776f) {
+
+                ThisThread::sleep_for(160ms);  
+                for (i = 1.0f; i > 0.0f; i -= 0.000345635f) {
+                    Aout = i;
+                }
+            }
+            else if (selection == 3) {        // slew 1/4
+                for (i = 0.0f; i < 1; i+=0.000690005f) {
+                    Aout = i;
+                }
+                ThisThread::sleep_for(200ms);  
+                for (i = 1.0f; i > 0.0f; i -= 0.000690005f) {
+                    Aout = i;
+                }
+            }    
+            else if (selection == 4) {        // slew 1/8
+                for (i = 0.0f; i < 1; i+=0.001400005f) {
+                    Aout = i;
+                }
+                ThisThread::sleep_for(220ms);  
+                for (i = 1.0f; i > 0.0f; i -= 0.001400005f) {
                     Aout = i;
                 }
             }    
@@ -135,7 +157,7 @@ int main() {
     uLCD.reset();
     uLCD.background_color(0xDB7093);
     uLCD.cls();
-    
+
     // uLCD.color(0xF0FFF0);
     // uLCD.textbackground_color(0x00FF00);
     // uLCD.printf("108061213_HW2\n");
@@ -153,33 +175,32 @@ int main() {
     uLCD.printf("1/4");
     uLCD.locate(1,8);
     uLCD.printf("1/8");
-   Thread printfThread(osPriorityLow);
-    printfThread.start(callback(&printfQueue, &EventQueue::dispatch_forever));
+    // Thread printfThread(osPriorityLow);
+    // printfThread.start(callback(&printfQueue, &EventQueue::dispatch_forever));
     // normal priority thread for other events
-    Thread eventThread(osPriorityNormal);
-    eventThread.start(callback(&eventQueue, &EventQueue::dispatch_forever));
+  // Thread eventThread(osPriorityNormal);
+  //   eventThread.start(callback(&eventQueue, &EventQueue::dispatch_forever));
 
     // debounce.start();
     // buttom_1.fall(&bt1_irq);
     buttom_down.fall(&bt2_irq);
     buttom_up.fall(&bt1_irq);
     buttom_select.fall(&bt3_irq);
+    g.start(generator_thread);
     while(selected != 1) {
         //  uLCD.locate(0,3);
         //         uLCD.printf("%d",selection);
-        lcd_update();
-        
+        // lcd_update();
+
         // ThisThread::sleep_for(1000ms); // sampling rate = 500/s 實際55/s
     }
-    // Thread g;
     uLCD.locate(0,10);
     uLCD.printf(" start!");
-    // g.start(generator_thread);
 
-    sample_thread();
+    // sample_thread();
     uLCD.locate(0,10);
     uLCD.printf(" done!");
-    
+
 }
 
 
