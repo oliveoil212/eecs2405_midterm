@@ -90,40 +90,40 @@ void generator_thread() {
     float i;
     while(1) {
         if (1) {
-            if (selection == 2) {        // slew1
+            if (selection == 2) {        
                 for (i = 0.0f; i < 1; i+=0.000175635f) {
                     Aout = i;
                 }
 
-                ThisThread::sleep_for(80ms);  
+                ThisThread::sleep_for(160ms);  
                 for (i = 1.0f; i > 0.0f; i -= 0.000175635f) {
                     Aout = i;
                 }
             }
-            else if (selection == 3) {        // slew1/2
+            else if (selection == 3) {        
                 for (i = 0.0f; i < 1; i+=0.000345635f) {
                     Aout = i;
                 }
 
-                ThisThread::sleep_for(160ms);  
+                ThisThread::sleep_for(200ms);  
                 for (i = 1.0f; i > 0.0f; i -= 0.000345635f) {
                     Aout = i;
                 }
             }
-            else if (selection == 4) {        // slew 1/4
+            else if (selection == 4) {       
                 for (i = 0.0f; i < 1; i+=0.000690005f) {
                     Aout = i;
                 }
-                ThisThread::sleep_for(200ms);  
+                ThisThread::sleep_for(220ms);  
                 for (i = 1.0f; i > 0.0f; i -= 0.000690005f) {
                     Aout = i;
                 }
             }    
-            else if (selection == 1) {        // slew 1/8
+            else if (selection == 1) {        
                 for (i = 0.0f; i < 1; i+=0.000087005f) {
                     Aout = i;
                 }
-                ThisThread::sleep_for(220ms);  
+                ThisThread::sleep_for(80ms);  
                 for (i = 1.0f; i > 0.0f; i -= 0.000087005f) {
                     Aout = i;
                 }
@@ -139,7 +139,7 @@ void sample_thread() {
     // t.start();
     for (i = 0; i < sample; i++){
         // Aout = Ain;
-        ADCdata[i] = Ain;
+        ADCdata[i] = Ain * 3.3;
         // ThisThread::sleep_for(1ms); // sampling rate = 500/s 實際55/s
         ThisThread::sleep_for(1000ms/sample); // sampling rate = 500/s 實際55/s
         // wait_us(100);
