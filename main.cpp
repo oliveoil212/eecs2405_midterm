@@ -175,11 +175,11 @@ int main() {
     uLCD.printf("1/4");
     uLCD.locate(1,8);
     uLCD.printf("1/8");
-    // Thread printfThread(osPriorityLow);
-    // printfThread.start(callback(&printfQueue, &EventQueue::dispatch_forever));
+    Thread printfThread(osPriorityLow);
+    printfThread.start(callback(&printfQueue, &EventQueue::dispatch_forever));
     // normal priority thread for other events
-  // Thread eventThread(osPriorityNormal);
-  //   eventThread.start(callback(&eventQueue, &EventQueue::dispatch_forever));
+  Thread eventThread(osPriorityNormal);
+    eventThread.start(callback(&eventQueue, &EventQueue::dispatch_forever));
 
     // debounce.start();
     // buttom_1.fall(&bt1_irq);
@@ -190,14 +190,14 @@ int main() {
     while(selected != 1) {
         //  uLCD.locate(0,3);
         //         uLCD.printf("%d",selection);
-        // lcd_update();
+        lcd_update();
 
         // ThisThread::sleep_for(1000ms); // sampling rate = 500/s 實際55/s
     }
     uLCD.locate(0,10);
     uLCD.printf(" start!");
 
-    // sample_thread();
+    sample_thread();
     uLCD.locate(0,10);
     uLCD.printf(" done!");
 
